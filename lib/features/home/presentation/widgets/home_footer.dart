@@ -19,7 +19,7 @@ class HomeFooter extends StatelessWidget {
   static const double _linkDividerHeight = 12;
 
   static const _info = <(String, List<String>)>[
-    ('대표이사', ['홍길동']),
+    ('대표이사', ['이경석']),
     ('주소', ['서울특별시 관악구 관악로 1']),
     ('사업자등록번호', ['000-00-00000']),
     ('이메일', ['Livion@gmail.com']),

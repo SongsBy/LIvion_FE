@@ -291,7 +291,8 @@ mixin _$LiveSummary {
 
  String get id; String get sellerName; String? get sellerAvatar; String get title; String? get thumbnail; int get viewers;/// 카테고리 칩과 같은 이름 ("푸드", "뷰티" ...).
  String get category;/// 마감까지 남은 일수. null이면 D-day 뱃지를 보이지 않는다.
- int? get dDay; bool get isClosingSoon; bool get isBookmarked; LiveProduct get product;
+ int? get dDay; bool get isClosingSoon;/// Livion 공식 방송. 판매자 사진 대신 브랜드 아바타를 그린다.
+ bool get isOfficial; bool get isBookmarked; LiveProduct get product;
 /// Create a copy of LiveSummary
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -302,16 +303,16 @@ $LiveSummaryCopyWith<LiveSummary> get copyWith => _$LiveSummaryCopyWithImpl<Live
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveSummary&&(identical(other.id, id) || other.id == id)&&(identical(other.sellerName, sellerName) || other.sellerName == sellerName)&&(identical(other.sellerAvatar, sellerAvatar) || other.sellerAvatar == sellerAvatar)&&(identical(other.title, title) || other.title == title)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&(identical(other.viewers, viewers) || other.viewers == viewers)&&(identical(other.category, category) || other.category == category)&&(identical(other.dDay, dDay) || other.dDay == dDay)&&(identical(other.isClosingSoon, isClosingSoon) || other.isClosingSoon == isClosingSoon)&&(identical(other.isBookmarked, isBookmarked) || other.isBookmarked == isBookmarked)&&(identical(other.product, product) || other.product == product));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveSummary&&(identical(other.id, id) || other.id == id)&&(identical(other.sellerName, sellerName) || other.sellerName == sellerName)&&(identical(other.sellerAvatar, sellerAvatar) || other.sellerAvatar == sellerAvatar)&&(identical(other.title, title) || other.title == title)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&(identical(other.viewers, viewers) || other.viewers == viewers)&&(identical(other.category, category) || other.category == category)&&(identical(other.dDay, dDay) || other.dDay == dDay)&&(identical(other.isClosingSoon, isClosingSoon) || other.isClosingSoon == isClosingSoon)&&(identical(other.isOfficial, isOfficial) || other.isOfficial == isOfficial)&&(identical(other.isBookmarked, isBookmarked) || other.isBookmarked == isBookmarked)&&(identical(other.product, product) || other.product == product));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,sellerName,sellerAvatar,title,thumbnail,viewers,category,dDay,isClosingSoon,isBookmarked,product);
+int get hashCode => Object.hash(runtimeType,id,sellerName,sellerAvatar,title,thumbnail,viewers,category,dDay,isClosingSoon,isOfficial,isBookmarked,product);
 
 @override
 String toString() {
-  return 'LiveSummary(id: $id, sellerName: $sellerName, sellerAvatar: $sellerAvatar, title: $title, thumbnail: $thumbnail, viewers: $viewers, category: $category, dDay: $dDay, isClosingSoon: $isClosingSoon, isBookmarked: $isBookmarked, product: $product)';
+  return 'LiveSummary(id: $id, sellerName: $sellerName, sellerAvatar: $sellerAvatar, title: $title, thumbnail: $thumbnail, viewers: $viewers, category: $category, dDay: $dDay, isClosingSoon: $isClosingSoon, isOfficial: $isOfficial, isBookmarked: $isBookmarked, product: $product)';
 }
 
 
@@ -322,7 +323,7 @@ abstract mixin class $LiveSummaryCopyWith<$Res>  {
   factory $LiveSummaryCopyWith(LiveSummary value, $Res Function(LiveSummary) _then) = _$LiveSummaryCopyWithImpl;
 @useResult
 $Res call({
- String id, String sellerName, String? sellerAvatar, String title, String? thumbnail, int viewers, String category, int? dDay, bool isClosingSoon, bool isBookmarked, LiveProduct product
+ String id, String sellerName, String? sellerAvatar, String title, String? thumbnail, int viewers, String category, int? dDay, bool isClosingSoon, bool isOfficial, bool isBookmarked, LiveProduct product
 });
 
 
@@ -339,7 +340,7 @@ class _$LiveSummaryCopyWithImpl<$Res>
 
 /// Create a copy of LiveSummary
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sellerName = null,Object? sellerAvatar = freezed,Object? title = null,Object? thumbnail = freezed,Object? viewers = null,Object? category = null,Object? dDay = freezed,Object? isClosingSoon = null,Object? isBookmarked = null,Object? product = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sellerName = null,Object? sellerAvatar = freezed,Object? title = null,Object? thumbnail = freezed,Object? viewers = null,Object? category = null,Object? dDay = freezed,Object? isClosingSoon = null,Object? isOfficial = null,Object? isBookmarked = null,Object? product = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,sellerName: null == sellerName ? _self.sellerName : sellerName // ignore: cast_nullable_to_non_nullable
@@ -350,6 +351,7 @@ as String?,viewers: null == viewers ? _self.viewers : viewers // ignore: cast_nu
 as int,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as String,dDay: freezed == dDay ? _self.dDay : dDay // ignore: cast_nullable_to_non_nullable
 as int?,isClosingSoon: null == isClosingSoon ? _self.isClosingSoon : isClosingSoon // ignore: cast_nullable_to_non_nullable
+as bool,isOfficial: null == isOfficial ? _self.isOfficial : isOfficial // ignore: cast_nullable_to_non_nullable
 as bool,isBookmarked: null == isBookmarked ? _self.isBookmarked : isBookmarked // ignore: cast_nullable_to_non_nullable
 as bool,product: null == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
 as LiveProduct,
@@ -446,10 +448,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String sellerName,  String? sellerAvatar,  String title,  String? thumbnail,  int viewers,  String category,  int? dDay,  bool isClosingSoon,  bool isBookmarked,  LiveProduct product)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String sellerName,  String? sellerAvatar,  String title,  String? thumbnail,  int viewers,  String category,  int? dDay,  bool isClosingSoon,  bool isOfficial,  bool isBookmarked,  LiveProduct product)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LiveSummary() when $default != null:
-return $default(_that.id,_that.sellerName,_that.sellerAvatar,_that.title,_that.thumbnail,_that.viewers,_that.category,_that.dDay,_that.isClosingSoon,_that.isBookmarked,_that.product);case _:
+return $default(_that.id,_that.sellerName,_that.sellerAvatar,_that.title,_that.thumbnail,_that.viewers,_that.category,_that.dDay,_that.isClosingSoon,_that.isOfficial,_that.isBookmarked,_that.product);case _:
   return orElse();
 
 }
@@ -467,10 +469,10 @@ return $default(_that.id,_that.sellerName,_that.sellerAvatar,_that.title,_that.t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String sellerName,  String? sellerAvatar,  String title,  String? thumbnail,  int viewers,  String category,  int? dDay,  bool isClosingSoon,  bool isBookmarked,  LiveProduct product)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String sellerName,  String? sellerAvatar,  String title,  String? thumbnail,  int viewers,  String category,  int? dDay,  bool isClosingSoon,  bool isOfficial,  bool isBookmarked,  LiveProduct product)  $default,) {final _that = this;
 switch (_that) {
 case _LiveSummary():
-return $default(_that.id,_that.sellerName,_that.sellerAvatar,_that.title,_that.thumbnail,_that.viewers,_that.category,_that.dDay,_that.isClosingSoon,_that.isBookmarked,_that.product);case _:
+return $default(_that.id,_that.sellerName,_that.sellerAvatar,_that.title,_that.thumbnail,_that.viewers,_that.category,_that.dDay,_that.isClosingSoon,_that.isOfficial,_that.isBookmarked,_that.product);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -487,10 +489,10 @@ return $default(_that.id,_that.sellerName,_that.sellerAvatar,_that.title,_that.t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String sellerName,  String? sellerAvatar,  String title,  String? thumbnail,  int viewers,  String category,  int? dDay,  bool isClosingSoon,  bool isBookmarked,  LiveProduct product)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String sellerName,  String? sellerAvatar,  String title,  String? thumbnail,  int viewers,  String category,  int? dDay,  bool isClosingSoon,  bool isOfficial,  bool isBookmarked,  LiveProduct product)?  $default,) {final _that = this;
 switch (_that) {
 case _LiveSummary() when $default != null:
-return $default(_that.id,_that.sellerName,_that.sellerAvatar,_that.title,_that.thumbnail,_that.viewers,_that.category,_that.dDay,_that.isClosingSoon,_that.isBookmarked,_that.product);case _:
+return $default(_that.id,_that.sellerName,_that.sellerAvatar,_that.title,_that.thumbnail,_that.viewers,_that.category,_that.dDay,_that.isClosingSoon,_that.isOfficial,_that.isBookmarked,_that.product);case _:
   return null;
 
 }
@@ -502,7 +504,7 @@ return $default(_that.id,_that.sellerName,_that.sellerAvatar,_that.title,_that.t
 
 
 class _LiveSummary implements LiveSummary {
-  const _LiveSummary({required this.id, required this.sellerName, this.sellerAvatar, required this.title, this.thumbnail, required this.viewers, required this.category, this.dDay, this.isClosingSoon = false, this.isBookmarked = false, required this.product});
+  const _LiveSummary({required this.id, required this.sellerName, this.sellerAvatar, required this.title, this.thumbnail, required this.viewers, required this.category, this.dDay, this.isClosingSoon = false, this.isOfficial = false, this.isBookmarked = false, required this.product});
   
 
 @override final  String id;
@@ -516,6 +518,8 @@ class _LiveSummary implements LiveSummary {
 /// 마감까지 남은 일수. null이면 D-day 뱃지를 보이지 않는다.
 @override final  int? dDay;
 @override@JsonKey() final  bool isClosingSoon;
+/// Livion 공식 방송. 판매자 사진 대신 브랜드 아바타를 그린다.
+@override@JsonKey() final  bool isOfficial;
 @override@JsonKey() final  bool isBookmarked;
 @override final  LiveProduct product;
 
@@ -529,16 +533,16 @@ _$LiveSummaryCopyWith<_LiveSummary> get copyWith => __$LiveSummaryCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveSummary&&(identical(other.id, id) || other.id == id)&&(identical(other.sellerName, sellerName) || other.sellerName == sellerName)&&(identical(other.sellerAvatar, sellerAvatar) || other.sellerAvatar == sellerAvatar)&&(identical(other.title, title) || other.title == title)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&(identical(other.viewers, viewers) || other.viewers == viewers)&&(identical(other.category, category) || other.category == category)&&(identical(other.dDay, dDay) || other.dDay == dDay)&&(identical(other.isClosingSoon, isClosingSoon) || other.isClosingSoon == isClosingSoon)&&(identical(other.isBookmarked, isBookmarked) || other.isBookmarked == isBookmarked)&&(identical(other.product, product) || other.product == product));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveSummary&&(identical(other.id, id) || other.id == id)&&(identical(other.sellerName, sellerName) || other.sellerName == sellerName)&&(identical(other.sellerAvatar, sellerAvatar) || other.sellerAvatar == sellerAvatar)&&(identical(other.title, title) || other.title == title)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&(identical(other.viewers, viewers) || other.viewers == viewers)&&(identical(other.category, category) || other.category == category)&&(identical(other.dDay, dDay) || other.dDay == dDay)&&(identical(other.isClosingSoon, isClosingSoon) || other.isClosingSoon == isClosingSoon)&&(identical(other.isOfficial, isOfficial) || other.isOfficial == isOfficial)&&(identical(other.isBookmarked, isBookmarked) || other.isBookmarked == isBookmarked)&&(identical(other.product, product) || other.product == product));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,sellerName,sellerAvatar,title,thumbnail,viewers,category,dDay,isClosingSoon,isBookmarked,product);
+int get hashCode => Object.hash(runtimeType,id,sellerName,sellerAvatar,title,thumbnail,viewers,category,dDay,isClosingSoon,isOfficial,isBookmarked,product);
 
 @override
 String toString() {
-  return 'LiveSummary(id: $id, sellerName: $sellerName, sellerAvatar: $sellerAvatar, title: $title, thumbnail: $thumbnail, viewers: $viewers, category: $category, dDay: $dDay, isClosingSoon: $isClosingSoon, isBookmarked: $isBookmarked, product: $product)';
+  return 'LiveSummary(id: $id, sellerName: $sellerName, sellerAvatar: $sellerAvatar, title: $title, thumbnail: $thumbnail, viewers: $viewers, category: $category, dDay: $dDay, isClosingSoon: $isClosingSoon, isOfficial: $isOfficial, isBookmarked: $isBookmarked, product: $product)';
 }
 
 
@@ -549,7 +553,7 @@ abstract mixin class _$LiveSummaryCopyWith<$Res> implements $LiveSummaryCopyWith
   factory _$LiveSummaryCopyWith(_LiveSummary value, $Res Function(_LiveSummary) _then) = __$LiveSummaryCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String sellerName, String? sellerAvatar, String title, String? thumbnail, int viewers, String category, int? dDay, bool isClosingSoon, bool isBookmarked, LiveProduct product
+ String id, String sellerName, String? sellerAvatar, String title, String? thumbnail, int viewers, String category, int? dDay, bool isClosingSoon, bool isOfficial, bool isBookmarked, LiveProduct product
 });
 
 
@@ -566,7 +570,7 @@ class __$LiveSummaryCopyWithImpl<$Res>
 
 /// Create a copy of LiveSummary
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sellerName = null,Object? sellerAvatar = freezed,Object? title = null,Object? thumbnail = freezed,Object? viewers = null,Object? category = null,Object? dDay = freezed,Object? isClosingSoon = null,Object? isBookmarked = null,Object? product = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sellerName = null,Object? sellerAvatar = freezed,Object? title = null,Object? thumbnail = freezed,Object? viewers = null,Object? category = null,Object? dDay = freezed,Object? isClosingSoon = null,Object? isOfficial = null,Object? isBookmarked = null,Object? product = null,}) {
   return _then(_LiveSummary(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,sellerName: null == sellerName ? _self.sellerName : sellerName // ignore: cast_nullable_to_non_nullable
@@ -577,6 +581,7 @@ as String?,viewers: null == viewers ? _self.viewers : viewers // ignore: cast_nu
 as int,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as String,dDay: freezed == dDay ? _self.dDay : dDay // ignore: cast_nullable_to_non_nullable
 as int?,isClosingSoon: null == isClosingSoon ? _self.isClosingSoon : isClosingSoon // ignore: cast_nullable_to_non_nullable
+as bool,isOfficial: null == isOfficial ? _self.isOfficial : isOfficial // ignore: cast_nullable_to_non_nullable
 as bool,isBookmarked: null == isBookmarked ? _self.isBookmarked : isBookmarked // ignore: cast_nullable_to_non_nullable
 as bool,product: null == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
 as LiveProduct,

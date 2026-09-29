@@ -11,6 +11,12 @@ String formatKoreanClock(DateTime time) {
   return '$period $displayHour:$minute';
 }
 
+/// 시각 → "21:14:07". 24시간제, 시·분·초를 두 자리로 채운다.
+String formatClockSeconds(DateTime time) {
+  String two(int v) => v.toString().padLeft(2, '0');
+  return '${two(time.hour)}:${two(time.minute)}:${two(time.second)}';
+}
+
 /// 경과 시간 → "3초전", "2분전", "1시간전", "3일전". 음수·0은 "방금".
 String formatTimeAgo(Duration elapsed) {
   if (elapsed.inSeconds <= 0) return '방금';

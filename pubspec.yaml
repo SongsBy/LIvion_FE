@@ -39,6 +39,8 @@ dependencies:
   riverpod_annotation: ^3.0.0
   freezed_annotation: ^3.1.0
   sliding_up_panel: ^2.0.0+1
+  # 네이티브 PiP. 0.0.4부터 Flutter 3.41 이상이 필요해 0.0.3에 고정한다.
+  pip: 0.0.3
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +81,7 @@ flutter:
   assets:
     - asset/icons/
     - asset/images/demo/
+    - asset/images/banks/
 
   # 디자인 시스템 서체 (Figma Text Sheet). 이름은 AppFonts 토큰과 같아야 한다.
   fonts:

@@ -3,20 +3,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:livion/design_system/design_system.dart';
 
+import '../../domain/entities/live_detail.dart';
 import '../providers/live_detail_controller.dart';
+import '../providers/live_pip_state.dart';
+import '../providers/minimized_live.dart';
 import '../widgets/live_detail_body.dart';
+import '../widgets/live_detail_ui.dart';
+import 'auction_detail_screen.dart';
 
 /// 라이브 방송 화면. 하단 내비 LIVE 탭의 본문이자, 홈의 공식 방송·인기 급상승·
 /// 마감 D-7·전체 라이브 카드를 눌렀을 때 도착하는 화면이다.
 ///
 /// 조회 상태(loading / error / data)만 나누고 실제 배치는 [LiveDetailBody]가 맡는다.
-/// 채팅·입찰현황 패널은 붙어 있고, 입찰·공유·경매 상세·결제는 Figma 화면
-/// (경매 상세, 결제)이 붙기 전이라 준비 중 안내만 보인다.
+/// 입찰 버튼·상품 카드(패널이 열리기 전·후 모두)와 패널의 "경매 상세 보기"는 [AuctionDetailScreen]을
+/// 열고, 그동안 이 방송이 작은 창(PiP)으로 계속 보인다. 공유·입찰 옵션 등은
+/// 준비 중 안내만 보인다.
+///
+/// 우측 상단 "화면 축소"는 이 방송을 [MinimizedLive]에 넣어 작은 창으로 띄우고
+/// [onMinimize]로 화면을 비킨다. 루트 탭에서는 홈 탭을 보인다.
 class LiveDetailScreen extends ConsumerWidget {
-  const LiveDetailScreen({super.key, this.onBack});
+  const LiveDetailScreen({super.key, this.onBack, this.onMinimize});
 
   /// 상단 뒤로가기. 루트 탭에서는 홈 탭으로 돌아간다.
   final VoidCallback? onBack;
+
+  /// 방송을 작은 창으로 넘긴 뒤 이 화면 대신 보일 곳으로 옮긴다.
+  /// null이면 축소할 곳이 없으므로 준비 중 안내만 보인다.
+  final VoidCallback? onMinimize;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,13 +46,51 @@ class LiveDetailScreen extends ConsumerWidget {
         onFollowTap: () => _toggleFollow(context, ref),
         onShare: () => _showPending(context, '공유'),
         onMore: () => _showPending(context, '더보기'),
-        onMinimize: () => _showPending(context, '화면 축소'),
+        onMinimize: () => _minimize(context, ref, data),
         onSendMessage: (text) => _sendChat(context, ref, text),
-        onAuctionItemTap: (_) => _showPending(context, '경매 상세'),
-        onBid: (_) => _showPending(context, '입찰'),
+        onAuctionItemTap: (item) => _openAuctionDetail(context, data, item),
+        onBid: (item) => _openAuctionDetail(context, data, item),
         onBidOptions: () => _showPending(context, '입찰 옵션'),
-        onOpenAuctionDetail: () => _showPending(context, '경매 상세'),
+        onOpenAuctionDetail: () => _openCurrentAuctionDetail(context, data),
         onChangeAutoBid: () => _showPending(context, '자동입찰 변경'),
+      ),
+    );
+  }
+
+  void _minimize(BuildContext context, WidgetRef ref, LiveDetail live) {
+    final leave = onMinimize;
+    if (leave == null) {
+      _showPending(context, '화면 축소');
+      return;
+    }
+    ref.read(minimizedLiveProvider.notifier).minimize(_pipSource(live));
+    leave();
+  }
+
+  LivePipSource _pipSource(LiveDetail live) =>
+      LivePipSource(liveId: live.id, broadcastImage: live.broadcastImage);
+
+  void _openCurrentAuctionDetail(BuildContext context, LiveDetail live) {
+    final item = live.currentAuctionItem;
+    if (item == null) {
+      _showMessage(context, '진행 중인 경매 상품이 없어요.');
+      return;
+    }
+    _openAuctionDetail(context, live, item);
+  }
+
+  void _openAuctionDetail(
+    BuildContext context,
+    LiveDetail live,
+    LiveAuctionItem item,
+  ) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => AuctionDetailScreen(
+          liveId: live.id,
+          itemId: item.id,
+          pipSource: _pipSource(live),
+        ),
       ),
     );
   }

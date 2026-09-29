@@ -24,6 +24,9 @@ abstract final class AppColors {
   static const Color neutral500 = Color(0xFF7D7979);
   static const Color neutral300 = Color(0xFFD7D3D3);
   static const Color neutral100 = Color(0xFFF3F2F2);
+
+  /// #F8F8F8 — 카테고리 화면 검색창·카테고리 아이콘 원 (Figma 원시값)
+  static const Color neutral50 = Color(0xFFF8F8F8);
   static const Color neutral0 = Color(0xFFFFFFFF);
 
   // ── Palette · Grade (검수 등급) ─────────────────────────────────
@@ -90,8 +93,14 @@ abstract final class AppColors {
   /// background/subtle — 회색 뱃지, 아바타 기본
   static const Color backgroundSubtle = neutral100;
 
+  /// background/muted — 검색창, 카테고리 아이콘 원형 배경
+  static const Color backgroundMuted = neutral50;
+
   /// background/pressed — 입력창, 눌린 행
   static const Color backgroundPressed = opacityBlack5;
+
+  /// background/transparent — 화면 배경이 그대로 비치는 상단 바
+  static const Color backgroundTransparent = Color(0x00000000);
 
   /// background/dim — 썸네일 위 시청자 수 뱃지
   static const Color backgroundDim = opacityBlack65;
@@ -99,8 +108,17 @@ abstract final class AppColors {
   /// background/placeholder — 빈 아바타
   static const Color backgroundPlaceholder = neutral300;
 
+  /// background/disabled-cta — 누를 수 없는 CTA 바탕 (흰 글자, 재고 등록 "검수 요청 및 편성 신청")
+  static const Color backgroundDisabledCta = opacityBlack10;
+
   /// background/disabled — 예정 편성 썸네일 위 어두운 덮개
   static const Color backgroundDisabled = opacityBlack40;
+
+  /// background/overlay — 아래 시트 뒤 어두운 막 (dark-gray 65%)
+  static const Color backgroundOverlay = opacityBlack65;
+
+  /// fill/handle — 아래 시트 위 손잡이 (rgba(118,118,128,0.12), Figma 원시값)
+  static const Color fillHandle = Color(0x1F767680);
 
   // ── Semantic · Border ──────────────────────────────────────────
   /// border/strong
@@ -115,12 +133,40 @@ abstract final class AppColors {
   /// border/brand
   static const Color borderBrand = mainOrange;
 
+  /// border/secondary — 섹션 제목 옆 작은 외곽선 버튼 ("수정")
+  static const Color borderSecondary = neutral500;
+
+  /// border/bold — 결제 금액 합계 위 굵은 구분선
+  static const Color borderBold = neutral900;
+
+  /// border/inverse-subtle — 오렌지 CTA 안 세로 구분선 (흰 30%)
+  static const Color borderInverseSubtle = opacityWhite30;
+
   /// border/inverse — 썸네일 위 아바타 테두리
   static const Color borderInverse = neutral0;
+
+  /// #C7C9D9 — 빈 체크박스·라디오 테두리 (판매자 전환 폼, Figma 원시값)
+  static const Color borderControl = Color(0xFFC7C9D9);
+
+  /// #EBEDF0 — 판매자 페이지 섹션 사이 4px 띠 (Figma keyboard-accessory-bar-selection)
+  static const Color dividerBand = Color(0xFFEBEDF0);
+
+  /// 검정 20% — 회색 트레이 안 세로 구분선 ("화·목 20:00 | 토·일 19:00", Figma 원시값)
+  static const Color dividerOnTint = Color(0x33000000);
+
+  // ── Brand · 외부 로그인 (각 공급자 가이드 색) ─────────────────
+  /// #FEE500 — 카카오 로그인 버튼 바탕 (Figma kakao_login_kr_large)
+  static const Color kakaoYellow = Color(0xFFFEE500);
+
+  /// #03A94D — 네이버 로그인 버튼 바탕 (Figma 로그인 37:4070)
+  static const Color naverGreen = Color(0xFF03A94D);
 
   // ── Semantic · Effect ──────────────────────────────────────────
   /// 카드 그림자 (rgba(0,0,0,0.1))
   static const Color shadow = Color(0x1A000000);
+
+  /// 떠 있는 알약 그림자 (rgba(0,0,0,0.08)) — 판매자 전환 단계 표시
+  static const Color shadowSoft = Color(0x14000000);
 
   // ── Semantic · Scrim (라이브 영상 위 그라데이션, 순수 검정 기반) ──
   /// 그라데이션 시작 — 투명

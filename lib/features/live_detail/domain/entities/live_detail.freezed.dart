@@ -573,7 +573,11 @@ mixin _$LiveAuctionItem {
  int get currentPriceWon;/// 마감까지 남은 일수. null이면 D-day 뱃지를 보이지 않는다.
  int? get dDay;/// 이번 입찰 마감까지 남은 초. 서버 시각 계약을 따르며 데모에서는 고정값이다.
  int get remainingSeconds;/// 에셋 경로 또는 URL.
- String? get thumbnail;
+ String? get thumbnail;/// 경매 상세의 상품 사진들 (에셋 경로 또는 URL). 비어 있으면 [thumbnail]을 쓴다.
+ List<String> get images;/// 보관·포장 상태 ("냉동", "미개봉"). 경매 상세에서 " · "로 이어 보인다.
+ List<String> get conditions;/// 소비기한 (날짜만 의미 있다). null이면 숨긴다.
+ DateTime? get expiryDate;/// 검수 완료일 (날짜만 의미 있다). null이면 "검수완료" 뱃지를 숨긴다.
+ DateTime? get inspectedAt;
 /// Create a copy of LiveAuctionItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -584,16 +588,16 @@ $LiveAuctionItemCopyWith<LiveAuctionItem> get copyWith => _$LiveAuctionItemCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveAuctionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.grade, grade) || other.grade == grade)&&(identical(other.startPriceWon, startPriceWon) || other.startPriceWon == startPriceWon)&&(identical(other.currentPriceWon, currentPriceWon) || other.currentPriceWon == currentPriceWon)&&(identical(other.dDay, dDay) || other.dDay == dDay)&&(identical(other.remainingSeconds, remainingSeconds) || other.remainingSeconds == remainingSeconds)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveAuctionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.grade, grade) || other.grade == grade)&&(identical(other.startPriceWon, startPriceWon) || other.startPriceWon == startPriceWon)&&(identical(other.currentPriceWon, currentPriceWon) || other.currentPriceWon == currentPriceWon)&&(identical(other.dDay, dDay) || other.dDay == dDay)&&(identical(other.remainingSeconds, remainingSeconds) || other.remainingSeconds == remainingSeconds)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&const DeepCollectionEquality().equals(other.images, images)&&const DeepCollectionEquality().equals(other.conditions, conditions)&&(identical(other.expiryDate, expiryDate) || other.expiryDate == expiryDate)&&(identical(other.inspectedAt, inspectedAt) || other.inspectedAt == inspectedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,quantity,grade,startPriceWon,currentPriceWon,dDay,remainingSeconds,thumbnail);
+int get hashCode => Object.hash(runtimeType,id,name,quantity,grade,startPriceWon,currentPriceWon,dDay,remainingSeconds,thumbnail,const DeepCollectionEquality().hash(images),const DeepCollectionEquality().hash(conditions),expiryDate,inspectedAt);
 
 @override
 String toString() {
-  return 'LiveAuctionItem(id: $id, name: $name, quantity: $quantity, grade: $grade, startPriceWon: $startPriceWon, currentPriceWon: $currentPriceWon, dDay: $dDay, remainingSeconds: $remainingSeconds, thumbnail: $thumbnail)';
+  return 'LiveAuctionItem(id: $id, name: $name, quantity: $quantity, grade: $grade, startPriceWon: $startPriceWon, currentPriceWon: $currentPriceWon, dDay: $dDay, remainingSeconds: $remainingSeconds, thumbnail: $thumbnail, images: $images, conditions: $conditions, expiryDate: $expiryDate, inspectedAt: $inspectedAt)';
 }
 
 
@@ -604,7 +608,7 @@ abstract mixin class $LiveAuctionItemCopyWith<$Res>  {
   factory $LiveAuctionItemCopyWith(LiveAuctionItem value, $Res Function(LiveAuctionItem) _then) = _$LiveAuctionItemCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, int quantity, InspectionGrade grade, int startPriceWon, int currentPriceWon, int? dDay, int remainingSeconds, String? thumbnail
+ String id, String name, int quantity, InspectionGrade grade, int startPriceWon, int currentPriceWon, int? dDay, int remainingSeconds, String? thumbnail, List<String> images, List<String> conditions, DateTime? expiryDate, DateTime? inspectedAt
 });
 
 
@@ -621,7 +625,7 @@ class _$LiveAuctionItemCopyWithImpl<$Res>
 
 /// Create a copy of LiveAuctionItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? quantity = null,Object? grade = null,Object? startPriceWon = null,Object? currentPriceWon = null,Object? dDay = freezed,Object? remainingSeconds = null,Object? thumbnail = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? quantity = null,Object? grade = null,Object? startPriceWon = null,Object? currentPriceWon = null,Object? dDay = freezed,Object? remainingSeconds = null,Object? thumbnail = freezed,Object? images = null,Object? conditions = null,Object? expiryDate = freezed,Object? inspectedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -632,7 +636,11 @@ as int,currentPriceWon: null == currentPriceWon ? _self.currentPriceWon : curren
 as int,dDay: freezed == dDay ? _self.dDay : dDay // ignore: cast_nullable_to_non_nullable
 as int?,remainingSeconds: null == remainingSeconds ? _self.remainingSeconds : remainingSeconds // ignore: cast_nullable_to_non_nullable
 as int,thumbnail: freezed == thumbnail ? _self.thumbnail : thumbnail // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,images: null == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,conditions: null == conditions ? _self.conditions : conditions // ignore: cast_nullable_to_non_nullable
+as List<String>,expiryDate: freezed == expiryDate ? _self.expiryDate : expiryDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,inspectedAt: freezed == inspectedAt ? _self.inspectedAt : inspectedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -717,10 +725,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  int quantity,  InspectionGrade grade,  int startPriceWon,  int currentPriceWon,  int? dDay,  int remainingSeconds,  String? thumbnail)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  int quantity,  InspectionGrade grade,  int startPriceWon,  int currentPriceWon,  int? dDay,  int remainingSeconds,  String? thumbnail,  List<String> images,  List<String> conditions,  DateTime? expiryDate,  DateTime? inspectedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LiveAuctionItem() when $default != null:
-return $default(_that.id,_that.name,_that.quantity,_that.grade,_that.startPriceWon,_that.currentPriceWon,_that.dDay,_that.remainingSeconds,_that.thumbnail);case _:
+return $default(_that.id,_that.name,_that.quantity,_that.grade,_that.startPriceWon,_that.currentPriceWon,_that.dDay,_that.remainingSeconds,_that.thumbnail,_that.images,_that.conditions,_that.expiryDate,_that.inspectedAt);case _:
   return orElse();
 
 }
@@ -738,10 +746,10 @@ return $default(_that.id,_that.name,_that.quantity,_that.grade,_that.startPriceW
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  int quantity,  InspectionGrade grade,  int startPriceWon,  int currentPriceWon,  int? dDay,  int remainingSeconds,  String? thumbnail)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  int quantity,  InspectionGrade grade,  int startPriceWon,  int currentPriceWon,  int? dDay,  int remainingSeconds,  String? thumbnail,  List<String> images,  List<String> conditions,  DateTime? expiryDate,  DateTime? inspectedAt)  $default,) {final _that = this;
 switch (_that) {
 case _LiveAuctionItem():
-return $default(_that.id,_that.name,_that.quantity,_that.grade,_that.startPriceWon,_that.currentPriceWon,_that.dDay,_that.remainingSeconds,_that.thumbnail);case _:
+return $default(_that.id,_that.name,_that.quantity,_that.grade,_that.startPriceWon,_that.currentPriceWon,_that.dDay,_that.remainingSeconds,_that.thumbnail,_that.images,_that.conditions,_that.expiryDate,_that.inspectedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -758,10 +766,10 @@ return $default(_that.id,_that.name,_that.quantity,_that.grade,_that.startPriceW
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  int quantity,  InspectionGrade grade,  int startPriceWon,  int currentPriceWon,  int? dDay,  int remainingSeconds,  String? thumbnail)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  int quantity,  InspectionGrade grade,  int startPriceWon,  int currentPriceWon,  int? dDay,  int remainingSeconds,  String? thumbnail,  List<String> images,  List<String> conditions,  DateTime? expiryDate,  DateTime? inspectedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _LiveAuctionItem() when $default != null:
-return $default(_that.id,_that.name,_that.quantity,_that.grade,_that.startPriceWon,_that.currentPriceWon,_that.dDay,_that.remainingSeconds,_that.thumbnail);case _:
+return $default(_that.id,_that.name,_that.quantity,_that.grade,_that.startPriceWon,_that.currentPriceWon,_that.dDay,_that.remainingSeconds,_that.thumbnail,_that.images,_that.conditions,_that.expiryDate,_that.inspectedAt);case _:
   return null;
 
 }
@@ -773,7 +781,7 @@ return $default(_that.id,_that.name,_that.quantity,_that.grade,_that.startPriceW
 
 
 class _LiveAuctionItem extends LiveAuctionItem {
-  const _LiveAuctionItem({required this.id, required this.name, required this.quantity, required this.grade, required this.startPriceWon, required this.currentPriceWon, this.dDay, required this.remainingSeconds, this.thumbnail}): super._();
+  const _LiveAuctionItem({required this.id, required this.name, required this.quantity, required this.grade, required this.startPriceWon, required this.currentPriceWon, this.dDay, required this.remainingSeconds, this.thumbnail, final  List<String> images = const <String>[], final  List<String> conditions = const <String>[], this.expiryDate, this.inspectedAt}): _images = images,_conditions = conditions,super._();
   
 
 @override final  String id;
@@ -790,6 +798,28 @@ class _LiveAuctionItem extends LiveAuctionItem {
 @override final  int remainingSeconds;
 /// 에셋 경로 또는 URL.
 @override final  String? thumbnail;
+/// 경매 상세의 상품 사진들 (에셋 경로 또는 URL). 비어 있으면 [thumbnail]을 쓴다.
+ final  List<String> _images;
+/// 경매 상세의 상품 사진들 (에셋 경로 또는 URL). 비어 있으면 [thumbnail]을 쓴다.
+@override@JsonKey() List<String> get images {
+  if (_images is EqualUnmodifiableListView) return _images;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_images);
+}
+
+/// 보관·포장 상태 ("냉동", "미개봉"). 경매 상세에서 " · "로 이어 보인다.
+ final  List<String> _conditions;
+/// 보관·포장 상태 ("냉동", "미개봉"). 경매 상세에서 " · "로 이어 보인다.
+@override@JsonKey() List<String> get conditions {
+  if (_conditions is EqualUnmodifiableListView) return _conditions;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_conditions);
+}
+
+/// 소비기한 (날짜만 의미 있다). null이면 숨긴다.
+@override final  DateTime? expiryDate;
+/// 검수 완료일 (날짜만 의미 있다). null이면 "검수완료" 뱃지를 숨긴다.
+@override final  DateTime? inspectedAt;
 
 /// Create a copy of LiveAuctionItem
 /// with the given fields replaced by the non-null parameter values.
@@ -801,16 +831,16 @@ _$LiveAuctionItemCopyWith<_LiveAuctionItem> get copyWith => __$LiveAuctionItemCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveAuctionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.grade, grade) || other.grade == grade)&&(identical(other.startPriceWon, startPriceWon) || other.startPriceWon == startPriceWon)&&(identical(other.currentPriceWon, currentPriceWon) || other.currentPriceWon == currentPriceWon)&&(identical(other.dDay, dDay) || other.dDay == dDay)&&(identical(other.remainingSeconds, remainingSeconds) || other.remainingSeconds == remainingSeconds)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveAuctionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.grade, grade) || other.grade == grade)&&(identical(other.startPriceWon, startPriceWon) || other.startPriceWon == startPriceWon)&&(identical(other.currentPriceWon, currentPriceWon) || other.currentPriceWon == currentPriceWon)&&(identical(other.dDay, dDay) || other.dDay == dDay)&&(identical(other.remainingSeconds, remainingSeconds) || other.remainingSeconds == remainingSeconds)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._conditions, _conditions)&&(identical(other.expiryDate, expiryDate) || other.expiryDate == expiryDate)&&(identical(other.inspectedAt, inspectedAt) || other.inspectedAt == inspectedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,quantity,grade,startPriceWon,currentPriceWon,dDay,remainingSeconds,thumbnail);
+int get hashCode => Object.hash(runtimeType,id,name,quantity,grade,startPriceWon,currentPriceWon,dDay,remainingSeconds,thumbnail,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_conditions),expiryDate,inspectedAt);
 
 @override
 String toString() {
-  return 'LiveAuctionItem(id: $id, name: $name, quantity: $quantity, grade: $grade, startPriceWon: $startPriceWon, currentPriceWon: $currentPriceWon, dDay: $dDay, remainingSeconds: $remainingSeconds, thumbnail: $thumbnail)';
+  return 'LiveAuctionItem(id: $id, name: $name, quantity: $quantity, grade: $grade, startPriceWon: $startPriceWon, currentPriceWon: $currentPriceWon, dDay: $dDay, remainingSeconds: $remainingSeconds, thumbnail: $thumbnail, images: $images, conditions: $conditions, expiryDate: $expiryDate, inspectedAt: $inspectedAt)';
 }
 
 
@@ -821,7 +851,7 @@ abstract mixin class _$LiveAuctionItemCopyWith<$Res> implements $LiveAuctionItem
   factory _$LiveAuctionItemCopyWith(_LiveAuctionItem value, $Res Function(_LiveAuctionItem) _then) = __$LiveAuctionItemCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, int quantity, InspectionGrade grade, int startPriceWon, int currentPriceWon, int? dDay, int remainingSeconds, String? thumbnail
+ String id, String name, int quantity, InspectionGrade grade, int startPriceWon, int currentPriceWon, int? dDay, int remainingSeconds, String? thumbnail, List<String> images, List<String> conditions, DateTime? expiryDate, DateTime? inspectedAt
 });
 
 
@@ -838,7 +868,7 @@ class __$LiveAuctionItemCopyWithImpl<$Res>
 
 /// Create a copy of LiveAuctionItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? quantity = null,Object? grade = null,Object? startPriceWon = null,Object? currentPriceWon = null,Object? dDay = freezed,Object? remainingSeconds = null,Object? thumbnail = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? quantity = null,Object? grade = null,Object? startPriceWon = null,Object? currentPriceWon = null,Object? dDay = freezed,Object? remainingSeconds = null,Object? thumbnail = freezed,Object? images = null,Object? conditions = null,Object? expiryDate = freezed,Object? inspectedAt = freezed,}) {
   return _then(_LiveAuctionItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -849,7 +879,11 @@ as int,currentPriceWon: null == currentPriceWon ? _self.currentPriceWon : curren
 as int,dDay: freezed == dDay ? _self.dDay : dDay // ignore: cast_nullable_to_non_nullable
 as int?,remainingSeconds: null == remainingSeconds ? _self.remainingSeconds : remainingSeconds // ignore: cast_nullable_to_non_nullable
 as int,thumbnail: freezed == thumbnail ? _self.thumbnail : thumbnail // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,images: null == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,conditions: null == conditions ? _self._conditions : conditions // ignore: cast_nullable_to_non_nullable
+as List<String>,expiryDate: freezed == expiryDate ? _self.expiryDate : expiryDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,inspectedAt: freezed == inspectedAt ? _self.inspectedAt : inspectedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -1394,7 +1428,9 @@ mixin _$LiveBidStatus {
  int? get extensionSeconds;/// 내가 넣은 입찰. 없으면 null.
  LiveBidEntry? get myBid;/// 자동입찰 최대가. 설정하지 않았으면 null.
  int? get maxAutoBidWon;/// 순위 목록. rank 오름차순.
- List<LiveBidEntry> get ranking;
+ List<LiveBidEntry> get ranking;/// 유사 품목의 평균 낙찰 배수 (시작가 대비). 경매 상세의 추이 참고 문구에 쓴다.
+ double? get similarAverageMultiplier;/// 유사 품목의 최근 낙찰가 (원, 정수).
+ int? get recentWinningPriceWon;
 /// Create a copy of LiveBidStatus
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1405,16 +1441,16 @@ $LiveBidStatusCopyWith<LiveBidStatus> get copyWith => _$LiveBidStatusCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveBidStatus&&(identical(other.startPriceWon, startPriceWon) || other.startPriceWon == startPriceWon)&&(identical(other.currentPriceWon, currentPriceWon) || other.currentPriceWon == currentPriceWon)&&(identical(other.participantCount, participantCount) || other.participantCount == participantCount)&&(identical(other.totalBidCount, totalBidCount) || other.totalBidCount == totalBidCount)&&(identical(other.elapsedSeconds, elapsedSeconds) || other.elapsedSeconds == elapsedSeconds)&&const DeepCollectionEquality().equals(other.priceHistory, priceHistory)&&(identical(other.extensionStartSeconds, extensionStartSeconds) || other.extensionStartSeconds == extensionStartSeconds)&&(identical(other.extensionSeconds, extensionSeconds) || other.extensionSeconds == extensionSeconds)&&(identical(other.myBid, myBid) || other.myBid == myBid)&&(identical(other.maxAutoBidWon, maxAutoBidWon) || other.maxAutoBidWon == maxAutoBidWon)&&const DeepCollectionEquality().equals(other.ranking, ranking));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveBidStatus&&(identical(other.startPriceWon, startPriceWon) || other.startPriceWon == startPriceWon)&&(identical(other.currentPriceWon, currentPriceWon) || other.currentPriceWon == currentPriceWon)&&(identical(other.participantCount, participantCount) || other.participantCount == participantCount)&&(identical(other.totalBidCount, totalBidCount) || other.totalBidCount == totalBidCount)&&(identical(other.elapsedSeconds, elapsedSeconds) || other.elapsedSeconds == elapsedSeconds)&&const DeepCollectionEquality().equals(other.priceHistory, priceHistory)&&(identical(other.extensionStartSeconds, extensionStartSeconds) || other.extensionStartSeconds == extensionStartSeconds)&&(identical(other.extensionSeconds, extensionSeconds) || other.extensionSeconds == extensionSeconds)&&(identical(other.myBid, myBid) || other.myBid == myBid)&&(identical(other.maxAutoBidWon, maxAutoBidWon) || other.maxAutoBidWon == maxAutoBidWon)&&const DeepCollectionEquality().equals(other.ranking, ranking)&&(identical(other.similarAverageMultiplier, similarAverageMultiplier) || other.similarAverageMultiplier == similarAverageMultiplier)&&(identical(other.recentWinningPriceWon, recentWinningPriceWon) || other.recentWinningPriceWon == recentWinningPriceWon));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,startPriceWon,currentPriceWon,participantCount,totalBidCount,elapsedSeconds,const DeepCollectionEquality().hash(priceHistory),extensionStartSeconds,extensionSeconds,myBid,maxAutoBidWon,const DeepCollectionEquality().hash(ranking));
+int get hashCode => Object.hash(runtimeType,startPriceWon,currentPriceWon,participantCount,totalBidCount,elapsedSeconds,const DeepCollectionEquality().hash(priceHistory),extensionStartSeconds,extensionSeconds,myBid,maxAutoBidWon,const DeepCollectionEquality().hash(ranking),similarAverageMultiplier,recentWinningPriceWon);
 
 @override
 String toString() {
-  return 'LiveBidStatus(startPriceWon: $startPriceWon, currentPriceWon: $currentPriceWon, participantCount: $participantCount, totalBidCount: $totalBidCount, elapsedSeconds: $elapsedSeconds, priceHistory: $priceHistory, extensionStartSeconds: $extensionStartSeconds, extensionSeconds: $extensionSeconds, myBid: $myBid, maxAutoBidWon: $maxAutoBidWon, ranking: $ranking)';
+  return 'LiveBidStatus(startPriceWon: $startPriceWon, currentPriceWon: $currentPriceWon, participantCount: $participantCount, totalBidCount: $totalBidCount, elapsedSeconds: $elapsedSeconds, priceHistory: $priceHistory, extensionStartSeconds: $extensionStartSeconds, extensionSeconds: $extensionSeconds, myBid: $myBid, maxAutoBidWon: $maxAutoBidWon, ranking: $ranking, similarAverageMultiplier: $similarAverageMultiplier, recentWinningPriceWon: $recentWinningPriceWon)';
 }
 
 
@@ -1425,7 +1461,7 @@ abstract mixin class $LiveBidStatusCopyWith<$Res>  {
   factory $LiveBidStatusCopyWith(LiveBidStatus value, $Res Function(LiveBidStatus) _then) = _$LiveBidStatusCopyWithImpl;
 @useResult
 $Res call({
- int startPriceWon, int currentPriceWon, int participantCount, int totalBidCount, int elapsedSeconds, List<LiveBidPoint> priceHistory, int? extensionStartSeconds, int? extensionSeconds, LiveBidEntry? myBid, int? maxAutoBidWon, List<LiveBidEntry> ranking
+ int startPriceWon, int currentPriceWon, int participantCount, int totalBidCount, int elapsedSeconds, List<LiveBidPoint> priceHistory, int? extensionStartSeconds, int? extensionSeconds, LiveBidEntry? myBid, int? maxAutoBidWon, List<LiveBidEntry> ranking, double? similarAverageMultiplier, int? recentWinningPriceWon
 });
 
 
@@ -1442,7 +1478,7 @@ class _$LiveBidStatusCopyWithImpl<$Res>
 
 /// Create a copy of LiveBidStatus
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? startPriceWon = null,Object? currentPriceWon = null,Object? participantCount = null,Object? totalBidCount = null,Object? elapsedSeconds = null,Object? priceHistory = null,Object? extensionStartSeconds = freezed,Object? extensionSeconds = freezed,Object? myBid = freezed,Object? maxAutoBidWon = freezed,Object? ranking = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? startPriceWon = null,Object? currentPriceWon = null,Object? participantCount = null,Object? totalBidCount = null,Object? elapsedSeconds = null,Object? priceHistory = null,Object? extensionStartSeconds = freezed,Object? extensionSeconds = freezed,Object? myBid = freezed,Object? maxAutoBidWon = freezed,Object? ranking = null,Object? similarAverageMultiplier = freezed,Object? recentWinningPriceWon = freezed,}) {
   return _then(_self.copyWith(
 startPriceWon: null == startPriceWon ? _self.startPriceWon : startPriceWon // ignore: cast_nullable_to_non_nullable
 as int,currentPriceWon: null == currentPriceWon ? _self.currentPriceWon : currentPriceWon // ignore: cast_nullable_to_non_nullable
@@ -1455,7 +1491,9 @@ as int?,extensionSeconds: freezed == extensionSeconds ? _self.extensionSeconds :
 as int?,myBid: freezed == myBid ? _self.myBid : myBid // ignore: cast_nullable_to_non_nullable
 as LiveBidEntry?,maxAutoBidWon: freezed == maxAutoBidWon ? _self.maxAutoBidWon : maxAutoBidWon // ignore: cast_nullable_to_non_nullable
 as int?,ranking: null == ranking ? _self.ranking : ranking // ignore: cast_nullable_to_non_nullable
-as List<LiveBidEntry>,
+as List<LiveBidEntry>,similarAverageMultiplier: freezed == similarAverageMultiplier ? _self.similarAverageMultiplier : similarAverageMultiplier // ignore: cast_nullable_to_non_nullable
+as double?,recentWinningPriceWon: freezed == recentWinningPriceWon ? _self.recentWinningPriceWon : recentWinningPriceWon // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 /// Create a copy of LiveBidStatus
@@ -1552,10 +1590,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int startPriceWon,  int currentPriceWon,  int participantCount,  int totalBidCount,  int elapsedSeconds,  List<LiveBidPoint> priceHistory,  int? extensionStartSeconds,  int? extensionSeconds,  LiveBidEntry? myBid,  int? maxAutoBidWon,  List<LiveBidEntry> ranking)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int startPriceWon,  int currentPriceWon,  int participantCount,  int totalBidCount,  int elapsedSeconds,  List<LiveBidPoint> priceHistory,  int? extensionStartSeconds,  int? extensionSeconds,  LiveBidEntry? myBid,  int? maxAutoBidWon,  List<LiveBidEntry> ranking,  double? similarAverageMultiplier,  int? recentWinningPriceWon)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LiveBidStatus() when $default != null:
-return $default(_that.startPriceWon,_that.currentPriceWon,_that.participantCount,_that.totalBidCount,_that.elapsedSeconds,_that.priceHistory,_that.extensionStartSeconds,_that.extensionSeconds,_that.myBid,_that.maxAutoBidWon,_that.ranking);case _:
+return $default(_that.startPriceWon,_that.currentPriceWon,_that.participantCount,_that.totalBidCount,_that.elapsedSeconds,_that.priceHistory,_that.extensionStartSeconds,_that.extensionSeconds,_that.myBid,_that.maxAutoBidWon,_that.ranking,_that.similarAverageMultiplier,_that.recentWinningPriceWon);case _:
   return orElse();
 
 }
@@ -1573,10 +1611,10 @@ return $default(_that.startPriceWon,_that.currentPriceWon,_that.participantCount
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int startPriceWon,  int currentPriceWon,  int participantCount,  int totalBidCount,  int elapsedSeconds,  List<LiveBidPoint> priceHistory,  int? extensionStartSeconds,  int? extensionSeconds,  LiveBidEntry? myBid,  int? maxAutoBidWon,  List<LiveBidEntry> ranking)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int startPriceWon,  int currentPriceWon,  int participantCount,  int totalBidCount,  int elapsedSeconds,  List<LiveBidPoint> priceHistory,  int? extensionStartSeconds,  int? extensionSeconds,  LiveBidEntry? myBid,  int? maxAutoBidWon,  List<LiveBidEntry> ranking,  double? similarAverageMultiplier,  int? recentWinningPriceWon)  $default,) {final _that = this;
 switch (_that) {
 case _LiveBidStatus():
-return $default(_that.startPriceWon,_that.currentPriceWon,_that.participantCount,_that.totalBidCount,_that.elapsedSeconds,_that.priceHistory,_that.extensionStartSeconds,_that.extensionSeconds,_that.myBid,_that.maxAutoBidWon,_that.ranking);case _:
+return $default(_that.startPriceWon,_that.currentPriceWon,_that.participantCount,_that.totalBidCount,_that.elapsedSeconds,_that.priceHistory,_that.extensionStartSeconds,_that.extensionSeconds,_that.myBid,_that.maxAutoBidWon,_that.ranking,_that.similarAverageMultiplier,_that.recentWinningPriceWon);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1593,10 +1631,10 @@ return $default(_that.startPriceWon,_that.currentPriceWon,_that.participantCount
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int startPriceWon,  int currentPriceWon,  int participantCount,  int totalBidCount,  int elapsedSeconds,  List<LiveBidPoint> priceHistory,  int? extensionStartSeconds,  int? extensionSeconds,  LiveBidEntry? myBid,  int? maxAutoBidWon,  List<LiveBidEntry> ranking)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int startPriceWon,  int currentPriceWon,  int participantCount,  int totalBidCount,  int elapsedSeconds,  List<LiveBidPoint> priceHistory,  int? extensionStartSeconds,  int? extensionSeconds,  LiveBidEntry? myBid,  int? maxAutoBidWon,  List<LiveBidEntry> ranking,  double? similarAverageMultiplier,  int? recentWinningPriceWon)?  $default,) {final _that = this;
 switch (_that) {
 case _LiveBidStatus() when $default != null:
-return $default(_that.startPriceWon,_that.currentPriceWon,_that.participantCount,_that.totalBidCount,_that.elapsedSeconds,_that.priceHistory,_that.extensionStartSeconds,_that.extensionSeconds,_that.myBid,_that.maxAutoBidWon,_that.ranking);case _:
+return $default(_that.startPriceWon,_that.currentPriceWon,_that.participantCount,_that.totalBidCount,_that.elapsedSeconds,_that.priceHistory,_that.extensionStartSeconds,_that.extensionSeconds,_that.myBid,_that.maxAutoBidWon,_that.ranking,_that.similarAverageMultiplier,_that.recentWinningPriceWon);case _:
   return null;
 
 }
@@ -1608,7 +1646,7 @@ return $default(_that.startPriceWon,_that.currentPriceWon,_that.participantCount
 
 
 class _LiveBidStatus extends LiveBidStatus {
-  const _LiveBidStatus({required this.startPriceWon, required this.currentPriceWon, required this.participantCount, required this.totalBidCount, required this.elapsedSeconds, final  List<LiveBidPoint> priceHistory = const <LiveBidPoint>[], this.extensionStartSeconds, this.extensionSeconds, this.myBid, this.maxAutoBidWon, final  List<LiveBidEntry> ranking = const <LiveBidEntry>[]}): _priceHistory = priceHistory,_ranking = ranking,super._();
+  const _LiveBidStatus({required this.startPriceWon, required this.currentPriceWon, required this.participantCount, required this.totalBidCount, required this.elapsedSeconds, final  List<LiveBidPoint> priceHistory = const <LiveBidPoint>[], this.extensionStartSeconds, this.extensionSeconds, this.myBid, this.maxAutoBidWon, final  List<LiveBidEntry> ranking = const <LiveBidEntry>[], this.similarAverageMultiplier, this.recentWinningPriceWon}): _priceHistory = priceHistory,_ranking = ranking,super._();
   
 
 @override final  int startPriceWon;
@@ -1643,6 +1681,10 @@ class _LiveBidStatus extends LiveBidStatus {
   return EqualUnmodifiableListView(_ranking);
 }
 
+/// 유사 품목의 평균 낙찰 배수 (시작가 대비). 경매 상세의 추이 참고 문구에 쓴다.
+@override final  double? similarAverageMultiplier;
+/// 유사 품목의 최근 낙찰가 (원, 정수).
+@override final  int? recentWinningPriceWon;
 
 /// Create a copy of LiveBidStatus
 /// with the given fields replaced by the non-null parameter values.
@@ -1654,16 +1696,16 @@ _$LiveBidStatusCopyWith<_LiveBidStatus> get copyWith => __$LiveBidStatusCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveBidStatus&&(identical(other.startPriceWon, startPriceWon) || other.startPriceWon == startPriceWon)&&(identical(other.currentPriceWon, currentPriceWon) || other.currentPriceWon == currentPriceWon)&&(identical(other.participantCount, participantCount) || other.participantCount == participantCount)&&(identical(other.totalBidCount, totalBidCount) || other.totalBidCount == totalBidCount)&&(identical(other.elapsedSeconds, elapsedSeconds) || other.elapsedSeconds == elapsedSeconds)&&const DeepCollectionEquality().equals(other._priceHistory, _priceHistory)&&(identical(other.extensionStartSeconds, extensionStartSeconds) || other.extensionStartSeconds == extensionStartSeconds)&&(identical(other.extensionSeconds, extensionSeconds) || other.extensionSeconds == extensionSeconds)&&(identical(other.myBid, myBid) || other.myBid == myBid)&&(identical(other.maxAutoBidWon, maxAutoBidWon) || other.maxAutoBidWon == maxAutoBidWon)&&const DeepCollectionEquality().equals(other._ranking, _ranking));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveBidStatus&&(identical(other.startPriceWon, startPriceWon) || other.startPriceWon == startPriceWon)&&(identical(other.currentPriceWon, currentPriceWon) || other.currentPriceWon == currentPriceWon)&&(identical(other.participantCount, participantCount) || other.participantCount == participantCount)&&(identical(other.totalBidCount, totalBidCount) || other.totalBidCount == totalBidCount)&&(identical(other.elapsedSeconds, elapsedSeconds) || other.elapsedSeconds == elapsedSeconds)&&const DeepCollectionEquality().equals(other._priceHistory, _priceHistory)&&(identical(other.extensionStartSeconds, extensionStartSeconds) || other.extensionStartSeconds == extensionStartSeconds)&&(identical(other.extensionSeconds, extensionSeconds) || other.extensionSeconds == extensionSeconds)&&(identical(other.myBid, myBid) || other.myBid == myBid)&&(identical(other.maxAutoBidWon, maxAutoBidWon) || other.maxAutoBidWon == maxAutoBidWon)&&const DeepCollectionEquality().equals(other._ranking, _ranking)&&(identical(other.similarAverageMultiplier, similarAverageMultiplier) || other.similarAverageMultiplier == similarAverageMultiplier)&&(identical(other.recentWinningPriceWon, recentWinningPriceWon) || other.recentWinningPriceWon == recentWinningPriceWon));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,startPriceWon,currentPriceWon,participantCount,totalBidCount,elapsedSeconds,const DeepCollectionEquality().hash(_priceHistory),extensionStartSeconds,extensionSeconds,myBid,maxAutoBidWon,const DeepCollectionEquality().hash(_ranking));
+int get hashCode => Object.hash(runtimeType,startPriceWon,currentPriceWon,participantCount,totalBidCount,elapsedSeconds,const DeepCollectionEquality().hash(_priceHistory),extensionStartSeconds,extensionSeconds,myBid,maxAutoBidWon,const DeepCollectionEquality().hash(_ranking),similarAverageMultiplier,recentWinningPriceWon);
 
 @override
 String toString() {
-  return 'LiveBidStatus(startPriceWon: $startPriceWon, currentPriceWon: $currentPriceWon, participantCount: $participantCount, totalBidCount: $totalBidCount, elapsedSeconds: $elapsedSeconds, priceHistory: $priceHistory, extensionStartSeconds: $extensionStartSeconds, extensionSeconds: $extensionSeconds, myBid: $myBid, maxAutoBidWon: $maxAutoBidWon, ranking: $ranking)';
+  return 'LiveBidStatus(startPriceWon: $startPriceWon, currentPriceWon: $currentPriceWon, participantCount: $participantCount, totalBidCount: $totalBidCount, elapsedSeconds: $elapsedSeconds, priceHistory: $priceHistory, extensionStartSeconds: $extensionStartSeconds, extensionSeconds: $extensionSeconds, myBid: $myBid, maxAutoBidWon: $maxAutoBidWon, ranking: $ranking, similarAverageMultiplier: $similarAverageMultiplier, recentWinningPriceWon: $recentWinningPriceWon)';
 }
 
 
@@ -1674,7 +1716,7 @@ abstract mixin class _$LiveBidStatusCopyWith<$Res> implements $LiveBidStatusCopy
   factory _$LiveBidStatusCopyWith(_LiveBidStatus value, $Res Function(_LiveBidStatus) _then) = __$LiveBidStatusCopyWithImpl;
 @override @useResult
 $Res call({
- int startPriceWon, int currentPriceWon, int participantCount, int totalBidCount, int elapsedSeconds, List<LiveBidPoint> priceHistory, int? extensionStartSeconds, int? extensionSeconds, LiveBidEntry? myBid, int? maxAutoBidWon, List<LiveBidEntry> ranking
+ int startPriceWon, int currentPriceWon, int participantCount, int totalBidCount, int elapsedSeconds, List<LiveBidPoint> priceHistory, int? extensionStartSeconds, int? extensionSeconds, LiveBidEntry? myBid, int? maxAutoBidWon, List<LiveBidEntry> ranking, double? similarAverageMultiplier, int? recentWinningPriceWon
 });
 
 
@@ -1691,7 +1733,7 @@ class __$LiveBidStatusCopyWithImpl<$Res>
 
 /// Create a copy of LiveBidStatus
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? startPriceWon = null,Object? currentPriceWon = null,Object? participantCount = null,Object? totalBidCount = null,Object? elapsedSeconds = null,Object? priceHistory = null,Object? extensionStartSeconds = freezed,Object? extensionSeconds = freezed,Object? myBid = freezed,Object? maxAutoBidWon = freezed,Object? ranking = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? startPriceWon = null,Object? currentPriceWon = null,Object? participantCount = null,Object? totalBidCount = null,Object? elapsedSeconds = null,Object? priceHistory = null,Object? extensionStartSeconds = freezed,Object? extensionSeconds = freezed,Object? myBid = freezed,Object? maxAutoBidWon = freezed,Object? ranking = null,Object? similarAverageMultiplier = freezed,Object? recentWinningPriceWon = freezed,}) {
   return _then(_LiveBidStatus(
 startPriceWon: null == startPriceWon ? _self.startPriceWon : startPriceWon // ignore: cast_nullable_to_non_nullable
 as int,currentPriceWon: null == currentPriceWon ? _self.currentPriceWon : currentPriceWon // ignore: cast_nullable_to_non_nullable
@@ -1704,7 +1746,9 @@ as int?,extensionSeconds: freezed == extensionSeconds ? _self.extensionSeconds :
 as int?,myBid: freezed == myBid ? _self.myBid : myBid // ignore: cast_nullable_to_non_nullable
 as LiveBidEntry?,maxAutoBidWon: freezed == maxAutoBidWon ? _self.maxAutoBidWon : maxAutoBidWon // ignore: cast_nullable_to_non_nullable
 as int?,ranking: null == ranking ? _self._ranking : ranking // ignore: cast_nullable_to_non_nullable
-as List<LiveBidEntry>,
+as List<LiveBidEntry>,similarAverageMultiplier: freezed == similarAverageMultiplier ? _self.similarAverageMultiplier : similarAverageMultiplier // ignore: cast_nullable_to_non_nullable
+as double?,recentWinningPriceWon: freezed == recentWinningPriceWon ? _self.recentWinningPriceWon : recentWinningPriceWon // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

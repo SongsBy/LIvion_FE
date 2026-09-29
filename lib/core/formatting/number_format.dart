@@ -24,10 +24,14 @@ String formatMultiplier(double value) {
 
 /// 축 눈금용 짧은 원화 표기. 3000 → "3천", 12000 → "1.2만", 500 → "500".
 /// 만 미만은 천 단위, 만 이상은 만 단위로 줄이고 소수 0은 버린다.
-String formatShortKoreanWon(int won) {
-  if (won.abs() < 1000) return won.toString();
-  if (won.abs() < 10000) return '${_trimDecimal(won / 1000)}천';
-  return '${_trimDecimal(won / 10000)}만';
+String formatShortKoreanWon(int won) => formatShortKoreanCount(won);
+
+/// 수를 천·만 단위로 줄인다. 1435 → "1.4천", 16000 → "1.6만", 500 → "500".
+/// 팔로워 수처럼 자리가 좁은 곳에 쓴다.
+String formatShortKoreanCount(int value) {
+  if (value.abs() < 1000) return value.toString();
+  if (value.abs() < 10000) return '${_trimDecimal(value / 1000)}천';
+  return '${_trimDecimal(value / 10000)}만';
 }
 
 String _trimDecimal(double value) {

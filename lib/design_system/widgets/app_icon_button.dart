@@ -33,7 +33,9 @@ class AppIconButton extends StatelessWidget {
   final String? semanticLabel;
   final double size;
   final double iconSize;
-  final Color iconColor;
+
+  /// null이면 아이콘 원본 색을 그대로 쓴다 ([AppIcons.messageBox]처럼 칸이 그려진 그림).
+  final Color? iconColor;
   final bool bordered;
 
   /// 알림 점 (오렌지 6px) 표시 여부.

@@ -4,15 +4,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:livion/design_system/design_system.dart';
 import 'package:livion/features/live_detail/data/demo/live_detail_demo_data.dart';
+import 'package:livion/features/live_detail/data/repositories/demo_auction_detail_repository.dart';
 import 'package:livion/features/live_detail/domain/entities/live_detail.dart';
 import 'package:livion/features/live_detail/domain/repositories/live_detail_repository.dart';
 import 'package:livion/features/live_detail/presentation/providers/live_detail_dependencies.dart';
 import 'package:livion/features/live_detail/presentation/providers/live_detail_selection.dart';
 import 'package:livion/features/live_detail/presentation/providers/live_detail_controller.dart';
+import 'package:livion/features/live_detail/presentation/screens/auction_detail_screen.dart';
 import 'package:livion/features/live_detail/presentation/screens/live_detail_screen.dart';
 import 'package:livion/features/live_detail/presentation/widgets/live_activity_panel.dart';
 import 'package:livion/features/live_detail/presentation/widgets/live_activity_pill.dart';
 import 'package:livion/features/live_detail/presentation/widgets/live_detail_view.dart';
+
+import '../../helpers/fake_picture_in_picture.dart';
 
 /// 요청된 id를 기록하고, 첫 조회 실패·팔로우 실패를 흉내 내는 fake.
 class _FakeLiveDetailRepository implements LiveDetailRepository {
@@ -64,7 +68,13 @@ class _FakeLiveDetailRepository implements LiveDetailRepository {
 
 Widget _app(LiveDetailRepository repository) {
   return ProviderScope(
-    overrides: [liveDetailRepositoryProvider.overrideWithValue(repository)],
+    overrides: [
+      liveDetailRepositoryProvider.overrideWithValue(repository),
+      auctionDetailRepositoryProvider.overrideWithValue(
+        const DemoAuctionDetailRepository(latency: Duration.zero),
+      ),
+      pictureInPictureProvider.overrideWithValue(FakePictureInPicture()),
+    ],
     child: MaterialApp(
       theme: AppTheme.light,
       home: const Scaffold(body: LiveDetailScreen()),
@@ -153,14 +163,72 @@ void main() {
     expect(find.text('팔로우를 변경하지 못했어요.'), findsOneWidget);
   });
 
-  testWidgets('입찰을 누르면 준비 중 안내를 보인다', (tester) async {
+  testWidgets('입찰 버튼을 누르면 지금 입찰 중인 상품의 경매 상세가 열린다', (tester) async {
     _usePhone(tester);
     await tester.pumpWidget(_app(_FakeLiveDetailRepository()));
     await tester.pump();
 
     await tester.tap(find.text('8,400원에 입찰'));
+    await tester.pumpAndSettle();
+    expect(
+      tester
+          .widget<AuctionDetailScreen>(find.byType(AuctionDetailScreen))
+          .itemId,
+      'item-1',
+    );
+    expect(find.text('입찰 기능은 준비 중입니다.'), findsNothing);
+  });
+
+  testWidgets('패널이 열린 뒤 입찰 버튼을 눌러도 경매 상세가 열린다', (tester) async {
+    _usePhone(tester);
+    await tester.pumpWidget(_app(_FakeLiveDetailRepository()));
     await tester.pump();
-    expect(find.text('입찰 기능은 준비 중입니다.'), findsOneWidget);
+
+    await tester.tap(find.byType(LiveActivityPill));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.descendant(
+        of: find.byType(LiveActivityPanel),
+        matching: find.text('8,400원에 입찰'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(AuctionDetailScreen), findsOneWidget);
+  });
+
+  testWidgets('상품 카드를 누르면 그 상품의 경매 상세가 열린다', (tester) async {
+    _usePhone(tester);
+    await tester.pumpWidget(_app(_FakeLiveDetailRepository()));
+    await tester.pump();
+
+    await tester.tap(find.text('냉동만두 1.2kg').first);
+    await tester.pumpAndSettle();
+    final screen = tester.widget<AuctionDetailScreen>(
+      find.byType(AuctionDetailScreen),
+    );
+    expect(screen.liveId, LiveDetailDemoData.featuredLiveId);
+    expect(screen.itemId, 'item-1');
+    expect(screen.pipSource?.broadcastImage, isNotNull);
+    expect(find.text('9/22 검수완료'), findsOneWidget);
+  });
+
+  testWidgets('패널의 "경매 상세 보기"는 지금 입찰 중인 상품을 연다', (tester) async {
+    _usePhone(tester);
+    await tester.pumpWidget(_app(_FakeLiveDetailRepository()));
+    await tester.pump();
+
+    await tester.tap(find.byType(LiveActivityPill));
+    await tester.pumpAndSettle();
+    await tester.drag(find.byType(PageView), const Offset(-350, 0));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('경매 상세 보기'));
+    await tester.pumpAndSettle();
+    expect(
+      tester
+          .widget<AuctionDetailScreen>(find.byType(AuctionDetailScreen))
+          .itemId,
+      'item-1',
+    );
   });
 
   testWidgets('알약을 누르면 채팅·입찰현황 패널이 열리고, 채팅을 보내면 목록 끝에 붙는다', (tester) async {

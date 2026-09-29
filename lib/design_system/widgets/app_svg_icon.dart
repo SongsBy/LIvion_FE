@@ -8,13 +8,25 @@ class AppSvgIcon extends StatelessWidget {
   const AppSvgIcon(
     this.asset, {
     super.key,
-    this.size = AppIconSize.xl,
+    double size = AppIconSize.xl,
     this.color,
     this.semanticLabel,
-  });
+  }) : width = size,
+       height = size;
+
+  /// 정사각형이 아닌 그림 ("✓" 11.75×9.5, 툴팁 꼬리 16.4×15).
+  AppSvgIcon.sized(
+    this.asset, {
+    super.key,
+    required Size size,
+    this.color,
+    this.semanticLabel,
+  }) : width = size.width,
+       height = size.height;
 
   final String asset;
-  final double size;
+  final double width;
+  final double height;
   final Color? color;
   final String? semanticLabel;
 
@@ -22,8 +34,8 @@ class AppSvgIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return SvgPicture.asset(
       asset,
-      width: size,
-      height: size,
+      width: width,
+      height: height,
       colorFilter: color == null
           ? null
           : ColorFilter.mode(color!, BlendMode.srcIn),

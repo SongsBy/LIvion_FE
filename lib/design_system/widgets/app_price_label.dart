@@ -12,6 +12,9 @@ enum AppPriceSize {
 
   /// 16 / 14 — 상품 카드
   lg,
+
+  /// 18 / 18 굵게 — 결제 금액 합계
+  xl,
 }
 
 /// "0,000원 0배" 표기. 금액은 Bold, 단위는 Medium, 배수는 point 색.
@@ -52,6 +55,12 @@ class AppPriceLabel extends StatelessWidget {
       AppPriceSize.lg => (
         AppTextStyles.pretendardH2,
         AppTextStyles.pretendardBody1,
+        AppTextStyles.pretendardH3,
+        AppTextStyles.pretendardBody2,
+      ),
+      AppPriceSize.xl => (
+        AppTextStyles.pretendardH1,
+        AppTextStyles.pretendardH1,
         AppTextStyles.pretendardH3,
         AppTextStyles.pretendardBody2,
       ),

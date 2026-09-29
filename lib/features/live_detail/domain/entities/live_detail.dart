@@ -65,6 +65,18 @@ abstract class LiveAuctionItem with _$LiveAuctionItem {
 
     /// 에셋 경로 또는 URL.
     String? thumbnail,
+
+    /// 경매 상세의 상품 사진들 (에셋 경로 또는 URL). 비어 있으면 [thumbnail]을 쓴다.
+    @Default(<String>[]) List<String> images,
+
+    /// 보관·포장 상태 ("냉동", "미개봉"). 경매 상세에서 " · "로 이어 보인다.
+    @Default(<String>[]) List<String> conditions,
+
+    /// 소비기한 (날짜만 의미 있다). null이면 숨긴다.
+    DateTime? expiryDate,
+
+    /// 검수 완료일 (날짜만 의미 있다). null이면 "검수완료" 뱃지를 숨긴다.
+    DateTime? inspectedAt,
   }) = _LiveAuctionItem;
 
   /// 시작가 대비 현재가 배수. 시작가가 0 이하면 계산할 수 없어 null.
@@ -125,6 +137,12 @@ abstract class LiveBidStatus with _$LiveBidStatus {
 
     /// 순위 목록. rank 오름차순.
     @Default(<LiveBidEntry>[]) List<LiveBidEntry> ranking,
+
+    /// 유사 품목의 평균 낙찰 배수 (시작가 대비). 경매 상세의 추이 참고 문구에 쓴다.
+    double? similarAverageMultiplier,
+
+    /// 유사 품목의 최근 낙찰가 (원, 정수).
+    int? recentWinningPriceWon,
   }) = _LiveBidStatus;
 
   /// 시작가 대비 현재가 배수. 시작가가 0 이하면 null.

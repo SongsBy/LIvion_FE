@@ -9,6 +9,12 @@ class AppLogo extends StatelessWidget {
 
   /// 상단 바·푸터에서 쓰는 고유 폭 (61.65 × 16.19).
   static const double defaultWidth = 61.65;
+
+  /// 로그인 화면 머리 폭 (Figma 37:4051, 114 × 30).
+  static const double mediumWidth = 114;
+
+  /// 스플래시 폭 (Figma 37:4184, 160 × 42).
+  static const double largeWidth = 160;
   static const double _aspectRatio = 61.65 / 16.19;
 
   final double width;

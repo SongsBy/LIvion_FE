@@ -43,6 +43,9 @@ abstract class LiveSummary with _$LiveSummary {
     /// 마감까지 남은 일수. null이면 D-day 뱃지를 보이지 않는다.
     int? dDay,
     @Default(false) bool isClosingSoon,
+
+    /// Livion 공식 방송. 판매자 사진 대신 브랜드 아바타를 그린다.
+    @Default(false) bool isOfficial,
     @Default(false) bool isBookmarked,
     required LiveProduct product,
   }) = _LiveSummary;

@@ -17,6 +17,7 @@ abstract final class HomeDemoFeed {
         category: '푸드',
         dDay: 12,
         isClosingSoon: true,
+        isOfficial: true,
         isBookmarked: true,
         product: LiveProduct(
           name: '냉동만두 1.2kg',

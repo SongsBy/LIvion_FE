@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none"><rect x="0.5" y="0.5" width="79" height="79" rx="19.5" fill="white" />
+<rect x="0.5" y="0.5" width="79" height="79" rx="19.5" stroke="#E4E9F1" />
+<g id="Group 9650">
+<path id="Vector" d="M23.2266 36.2266H14V52.9954H23.2266V36.2266Z" fill="#00C4A6" />
+<g id="Clip path group">
+<mask id="mask0_0_1" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="23" y="27" width="27" height="26">
+<g id="clip-path-3">
+<path id="Vector_2" d="M23.2266 36.2266C27.6725 36.2315 31.9349 37.9997 35.0786 41.1435C38.2223 44.2872 39.9906 48.5496 39.9954 52.9955H49.222C49.222 49.5817 48.5496 46.2014 47.2432 43.0474C45.9368 39.8935 44.022 37.0278 41.6081 34.6139C39.1942 32.2 36.3285 30.2852 33.1746 28.9788C30.0207 27.6724 26.6403 27 23.2266 27V36.2266Z" fill="white" />
+</g>
+</mask>
+<g mask="url(#mask0_0_1)">
+<g id="Group">
+<path id="Vector_3" d="M49.222 27.002H23.2266V52.9974H49.222V27.002Z" fill="url(#paint0_linear_0_1)" />
+</g>
+</g>
+</g>
+<path id="Vector_4" d="M66.0007 27V36.2266C61.5548 36.2315 57.2924 37.9997 54.1487 41.1435C51.005 44.2872 49.2367 48.5496 49.2319 52.9955H39.9961C39.9961 49.5809 40.6688 46.1998 41.9758 43.0453C43.2827 39.8908 45.1983 37.0247 47.6132 34.6107C50.0281 32.1966 52.8949 30.282 56.0499 28.9762C59.2048 27.6703 62.5862 26.9988 66.0007 27Z" fill="#00C4A6" />
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_1" x1="23.2941" y1="40.4242" x2="49.2605" y2="40.4242" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00C4A6" />
+<stop offset="0.11" stop-color="#0FC7A1" />
+<stop offset="0.31" stop-color="#38CE94" />
+<stop offset="0.6" stop-color="#78DB7F" />
+<stop offset="0.95" stop-color="#D1EB63" />
+<stop offset="1" stop-color="#DFEE5E" />
+</linearGradient>
+</defs>
+</svg>

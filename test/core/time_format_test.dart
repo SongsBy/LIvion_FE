@@ -37,4 +37,9 @@ void main() {
     expect(formatShortKoreanWon(500), '500');
     expect(formatShortKoreanWon(0), '0');
   });
+
+  test('formatClockSeconds는 24시간제로 두 자리씩 채운다', () {
+    expect(formatClockSeconds(DateTime(2026, 9, 28, 21, 14, 7)), '21:14:07');
+    expect(formatClockSeconds(DateTime(2026, 9, 28, 9, 5, 0)), '09:05:00');
+  });
 }

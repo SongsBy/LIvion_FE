@@ -8,17 +8,26 @@ abstract final class AppRadius {
   /// 4 — 뱃지, 버튼, 입력창, 작은 썸네일
   static const double r4 = 4;
 
+  /// 5 — 판매자 페이지 팔로우 버튼
+  static const double r5 = 5;
+
   /// 6 — 라이브 썸네일, 상품 카드
   static const double r6 = 6;
 
   /// 8 — 판매자 카드, 스와치 타일
   static const double r8 = 8;
 
+  /// 10 — 단계 표시 안의 번호 원·"STEP 01" 알약 (높이 20의 절반)
+  static const double r10 = 10;
+
   /// 12 — 신뢰 안내 카드
   static const double r12 = 12;
 
   /// 16 — 갤러리 시트
   static const double r16 = 16;
+
+  /// 20 — 로고 타일, 아래 시트 위 모서리
+  static const double r20 = 20;
 
   /// 17 — 알약 버튼 (높이 36의 절반 + 1)
   static const double pill = 17;
@@ -28,10 +37,22 @@ abstract final class AppRadius {
 
   static const BorderRadius r2All = BorderRadius.all(Radius.circular(r2));
   static const BorderRadius r4All = BorderRadius.all(Radius.circular(r4));
+  static const BorderRadius r5All = BorderRadius.all(Radius.circular(r5));
   static const BorderRadius r6All = BorderRadius.all(Radius.circular(r6));
   static const BorderRadius r8All = BorderRadius.all(Radius.circular(r8));
+  static const BorderRadius r10All = BorderRadius.all(Radius.circular(r10));
   static const BorderRadius r12All = BorderRadius.all(Radius.circular(r12));
+  static const BorderRadius r12Top = BorderRadius.vertical(
+    top: Radius.circular(r12),
+  );
+  static const BorderRadius r16Bottom = BorderRadius.vertical(
+    bottom: Radius.circular(r16),
+  );
   static const BorderRadius r16All = BorderRadius.all(Radius.circular(r16));
+  static const BorderRadius r20All = BorderRadius.all(Radius.circular(r20));
+  static const BorderRadius r20Top = BorderRadius.vertical(
+    top: Radius.circular(r20),
+  );
   static const BorderRadius pillAll = BorderRadius.all(Radius.circular(pill));
   static const BorderRadius pillMdAll = BorderRadius.all(
     Radius.circular(pillMd),

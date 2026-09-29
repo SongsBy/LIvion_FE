@@ -48,94 +48,102 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.backgroundDefault,
-      borderRadius: AppRadius.r6All,
-      child: InkWell(
-        onTap: onTap,
+    // 그림자는 흰 바탕 아래에 깔아야 한다. 바탕 위에 그리면 카드 전체가 회색으로 덮인다.
+    return DecoratedBox(
+      decoration: const BoxDecoration(
         borderRadius: AppRadius.r6All,
-        child: Container(
-          constraints: const BoxConstraints(minHeight: height),
-          padding: const EdgeInsets.all(AppSpacing.s16),
-          decoration: const BoxDecoration(
-            borderRadius: AppRadius.r6All,
-            boxShadow: AppShadows.card,
-          ),
-          child: Row(
-            children: [
-              AppThumbnail.square(size: _thumbnailSize, image: thumbnail),
-              const SizedBox(width: AppSpacing.s8),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  name,
-                                  style: AppTextStyles.pretendardBody2,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+        boxShadow: AppShadows.card,
+      ),
+      child: Material(
+        color: AppColors.backgroundDefault,
+        borderRadius: AppRadius.r6All,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: AppRadius.r6All,
+          child: Container(
+            constraints: const BoxConstraints(minHeight: height),
+            padding: const EdgeInsets.all(AppSpacing.s16),
+            child: Row(
+              children: [
+                AppThumbnail.square(size: _thumbnailSize, image: thumbnail),
+                const SizedBox(width: AppSpacing.s8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    name,
+                                    style: AppTextStyles.pretendardBody2,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
-                              ),
-                              if (quantityLabel != null) ...[
-                                const SizedBox(width: AppSpacing.s4),
-                                Text(
-                                  quantityLabel!,
-                                  style: AppTextStyles.pretendardCaption2
-                                      .copyWith(color: AppColors.textSecondary),
-                                ),
+                                if (quantityLabel != null) ...[
+                                  const SizedBox(width: AppSpacing.s4),
+                                  Text(
+                                    quantityLabel!,
+                                    style: AppTextStyles.pretendardCaption2
+                                        .copyWith(
+                                          color: AppColors.textSecondary,
+                                        ),
+                                  ),
+                                ],
                               ],
-                            ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: AppSpacing.s4),
-                        GradeBadge(grade),
-                        if (dDay != null) ...[
                           const SizedBox(width: AppSpacing.s4),
-                          AppBadge.neutral(dDay!),
+                          GradeBadge(grade),
+                          if (dDay != null) ...[
+                            const SizedBox(width: AppSpacing.s4),
+                            AppBadge.neutral(dDay!),
+                          ],
                         ],
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.s10),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (startPriceLabel != null) ...[
-                                Text(
-                                  startPriceLabel!,
-                                  style: AppTextStyles.pretendardCaption1Medium
-                                      .copyWith(color: AppColors.textSecondary),
+                      ),
+                      const SizedBox(height: AppSpacing.s10),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (startPriceLabel != null) ...[
+                                  Text(
+                                    startPriceLabel!,
+                                    style: AppTextStyles
+                                        .pretendardCaption1Medium
+                                        .copyWith(
+                                          color: AppColors.textSecondary,
+                                        ),
+                                  ),
+                                  const SizedBox(height: AppSpacing.s6),
+                                ],
+                                AppPriceLabel(
+                                  price: price,
+                                  multiplier: multiplier,
+                                  size: AppPriceSize.lg,
                                 ),
-                                const SizedBox(height: AppSpacing.s6),
                               ],
-                              AppPriceLabel(
-                                price: price,
-                                multiplier: multiplier,
-                                size: AppPriceSize.lg,
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                        if (remainingTime != null)
-                          AppBadge.timer(remainingTime!),
-                      ],
-                    ),
-                  ],
+                          if (remainingTime != null)
+                            AppBadge.timer(remainingTime!),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

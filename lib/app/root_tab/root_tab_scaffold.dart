@@ -18,7 +18,7 @@ class RootTabScaffold extends StatelessWidget {
     this.onSearch,
     this.onNotification,
     this.hasNotification = false,
-    this.onAvatarTap,
+    this.profile,
   });
 
   final Widget body;
@@ -28,7 +28,9 @@ class RootTabScaffold extends StatelessWidget {
   final VoidCallback? onSearch;
   final VoidCallback? onNotification;
   final bool hasNotification;
-  final VoidCallback? onAvatarTap;
+
+  /// 상단 바 오른쪽 끝 프로필 자리 (계정 전환 토글).
+  final Widget? profile;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class RootTabScaffold extends StatelessWidget {
               onSearch: onSearch,
               onNotification: onNotification,
               hasNotification: hasNotification,
-              onAvatarTap: onAvatarTap,
+              profile: profile,
             )
           : null,
       body: body,
